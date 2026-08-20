@@ -68,8 +68,9 @@ public class ReportService {
 
         Map<String, BigDecimal> categoryMap = new HashMap<>();
         for (Transaction t : txns) {
-            String catId = t.getCategory().getId();
-            categoryMap.put(catId, categoryMap.getOrDefault(catId, BigDecimal.ZERO).add(t.getAmount()));
+            String catId = (t.getCategory() != null && t.getCategory().getId() != null) ? t.getCategory().getId() : "other";
+            BigDecimal amt = t.getAmount() != null ? t.getAmount() : BigDecimal.ZERO;
+            categoryMap.put(catId, categoryMap.getOrDefault(catId, BigDecimal.ZERO).add(amt));
         }
 
         List<Map<String, Object>> result = new ArrayList<>();

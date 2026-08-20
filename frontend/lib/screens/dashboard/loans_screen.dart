@@ -8,6 +8,8 @@ import '../../core/translations.dart';
 import '../../core/ui_utils.dart';
 import '../../widgets/glass_container.dart';
 
+import '../../widgets/repay_loan_sheet.dart';
+
 class LoansScreen extends ConsumerStatefulWidget {
   const LoansScreen({super.key});
 
@@ -149,10 +151,19 @@ class _LoansScreenState extends ConsumerState<LoansScreen> {
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: GlassContainer(
-                          padding: const EdgeInsets.all(14),
-                          borderRadius: 18,
-                          child: Column(
+                        child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => RepayLoanSheet(loan: loan),
+                            );
+                          },
+                          child: GlassContainer(
+                            padding: const EdgeInsets.all(14),
+                            borderRadius: 18,
+                            child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
@@ -221,6 +232,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen> {
                               )
                             ],
                           ),
+                        ),
                         ),
                       );
                     }),

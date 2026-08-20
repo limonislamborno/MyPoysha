@@ -122,6 +122,11 @@ class AppTranslations {
     'statusPaid': {'bn': 'পরিশোধিত', 'en': 'Paid'},
     'filtersActive': {'bn': 'টি ফিল্টার সক্রিয়', 'en': 'filters active'},
     'saveSuccess': {'bn': 'সফলভাবে সংরক্ষিত হয়েছে!', 'en': 'Successfully saved!'},
+    'totalAmountLabel': {'bn': 'মোট পরিমাণ', 'en': 'Total Amount'},
+    'paidAmountLabel': {'bn': 'ইতোমধ্যে দেওয়া/পাওয়া', 'en': 'Already Paid'},
+    'dueAmountLabel': {'bn': 'কত বাকি', 'en': 'Remaining Due'},
+    'loanTypeLentInfo': {'bn': 'এই টাকা ফেরত পেলে তা আপনার আয় হিসেবে যুক্ত হবে', 'en': 'Receiving this will be added as Income'},
+    'loanTypeBorrowedInfo': {'bn': 'এই টাকা শোধ করলে তা আপনার খরচ হিসেবে যুক্ত হবে', 'en': 'Repaying this will be added as Expense'},
   };
 
   static String t(String key, String lang) {

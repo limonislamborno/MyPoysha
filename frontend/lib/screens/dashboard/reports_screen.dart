@@ -14,7 +14,9 @@ class ReportsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final lang = ref.watch(languageProvider);
     final trendAsync = ref.watch(monthlyTrendProvider);
-    final catAsync = ref.watch(categoryBreakdownProvider('')); 
+    final now = DateTime.now();
+    final currentMonthStr = '${now.year}-${now.month.toString().padLeft(2, '0')}';
+    final catAsync = ref.watch(categoryBreakdownProvider(currentMonthStr)); 
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,8 +108,10 @@ class ReportsScreen extends ConsumerWidget {
                                 gridData: const FlGridData(show: false),
                                 barGroups: List.generate(trends.length, (index) {
                                   final trend = trends[index];
-                                  final income = (trend['income'] ?? 0).toDouble();
-                                  final expense = (trend['expense'] ?? 0).toDouble();
+                                  final rawI = trend['income'] ?? 0;
+                                  final rawE = trend['expense'] ?? 0;
+                                  final income = (rawI is num) ? rawI.toDouble() : double.tryParse(rawI.toString()) ?? 0.0;
+                                  final expense = (rawE is num) ? rawE.toDouble() : double.tryParse(rawE.toString()) ?? 0.0;
                                   return BarChartGroupData(
                                     x: index,
                                     barsSpace: 0,
@@ -174,7 +178,8 @@ class ReportsScreen extends ConsumerWidget {
                                     centerSpaceRadius: 28,
                                     sections: List.generate(cats.length, (index) {
                                       final cat = cats[index];
-                                      final value = (cat['value'] ?? 0).toDouble();
+                                      final rawVal = cat['value'] ?? 0;
+                                      final value = (rawVal is num) ? rawVal.toDouble() : double.tryParse(rawVal.toString()) ?? 0.0;
                                       return PieChartSectionData(
                                         color: _getCategoryColor(cat['id'] ?? ''),
                                         value: value,
@@ -222,8 +227,8 @@ class ReportsScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                  loading: () => const SizedBox.shrink(),
-                  error: (err, stack) => const SizedBox.shrink(),
+                  loading: () => const Center(child: CircularProgressIndicator(color: AppColors.gold)),
+                  error: (err, stack) => Center(child: Text('Chart Error: $err', style: const TextStyle(color: Colors.redAccent))),
                 ),
               ],
             ),
@@ -236,8 +241,10 @@ class ReportsScreen extends ConsumerWidget {
   double _getMaxY(List<dynamic> trends) {
     double max = 0;
     for (var t in trends) {
-      final i = (t['income'] ?? 0).toDouble();
-      final e = (t['expense'] ?? 0).toDouble();
+      final rawI = t['income'] ?? 0;
+      final rawE = t['expense'] ?? 0;
+      final i = (rawI is num) ? rawI.toDouble() : double.tryParse(rawI.toString()) ?? 0.0;
+      final e = (rawE is num) ? rawE.toDouble() : double.tryParse(rawE.toString()) ?? 0.0;
       if (i > max) max = i;
       if (e > max) max = e;
     }

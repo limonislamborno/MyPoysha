@@ -220,11 +220,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
-                        Text(
-                          AppTranslations.t('demoHint', lang),
-                          style: const TextStyle(color: AppColors.muted, fontSize: 12, fontStyle: FontStyle.italic),
-                        ),
                       ],
                     ),
                   ),

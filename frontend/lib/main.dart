@@ -44,13 +44,18 @@ class InitialAuthWrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = Supabase.instance.client.auth.currentSession;
-    
-    // Simple routing based on session
-    if (session != null) {
-      return const HomeScreen();
-    } else {
-      return const LoginScreen();
-    }
+    return StreamBuilder<AuthState>(
+      stream: Supabase.instance.client.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final session = Supabase.instance.client.auth.currentSession;
+        
+        // Simple routing based on session
+        if (session != null) {
+          return const HomeScreen();
+        } else {
+          return const LoginScreen();
+        }
+      },
+    );
   }
 }

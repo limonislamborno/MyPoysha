@@ -82,6 +82,7 @@ class ApiService {
   }
 
   Future<List<dynamic>> getCategoryBreakdown(String month) async {
+    print('DEBUG: Requesting category breakdown for month: "$month"');
     final response = await _dio.get('/reports/category-breakdown', queryParameters: {'month': month});
     return response.data as List<dynamic>;
   }
